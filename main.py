@@ -1,10 +1,14 @@
 import src
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 load_dotenv()
 
+
 app = Flask(__name__)
+cors = CORS(app)
+# app.config["CORS_HEADERS"] = "Content-Type"
 
 
 @app.route("/api/chatbot", methods=["POST"])
@@ -29,9 +33,11 @@ def route():
 
     # Start processing
     response = src.process(message)
+    response = jsonify(response)
+    # response.headers.add("Access-Control-Allow-Origin", "*")
 
-    return jsonify(response)
+    return response
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=443, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

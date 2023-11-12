@@ -81,19 +81,19 @@ def gen_response(answer: str = "", references: list = []):
 def process(message: str) -> dict:
     # Inteprete message
     action = inteprete_action(message)
-    logger.info(f"Action: {action}")
+    logger.debug(f"Action: {action}")
 
     if action != "predict":
         return gen_response("Sorry, you question is quite ambigous.")
 
     content = interprete_content1(message)
-    logger.info(f"Content1: {content}")
+    logger.debug(f"Content1: {content}")
 
     if content != "price":
         return gen_response("Sorry, the content for prediction is quite ambigous.")
 
     content2 = interprete_content2(message)
-    logger.info(f"Content2: {content2}")
+    logger.debug(f"Content2: {content2}")
 
     if content2 == "":
         return gen_response("Sorry, the content for prediction is quite ambigous.")
@@ -101,13 +101,13 @@ def process(message: str) -> dict:
         return gen_response(f"Sorry, the alloy type '{content2}' not available in database.")
 
     time = interprete_time(message)
-    logger.info(f"Time: {time}")
+    logger.debug(f"Time: {time}")
 
     if time == "":
         return gen_response("Sorry, the time period is not mentioned.")
 
     prediction, sources = fitmodel.predict(content2, time, "day")
 
-    polished = polish(prediction, time, content2)
+    polished = polish(f"{prediction:.3f}", time, content2)
 
     return gen_response(polished, [sources])

@@ -6,7 +6,7 @@ from langchain.schema import HumanMessage
 # check necessary OS envs
 assert os.getenv("OPENAI_API_TOKEN"), "env 'OPENAI_API_TOKEN' must be specified"
 
-chat = ChatOpenAI(temperature=0, openai_api_key=os.getenv("OPENAI_API_TOKEN"), model="gpt-4")
+chat = ChatOpenAI(temperature=0, openai_api_key=os.getenv("OPENAI_API_TOKEN"), model="gpt-3.5-turbo")
 
 
 def get_answer_chatGPT(msg: str) -> str:
